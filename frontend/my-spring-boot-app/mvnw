@@ -1,0 +1,14 @@
+#!/bin/sh
+set -e
+
+# Maven Wrapper Script
+
+MAVEN_VERSION=3.8.6
+MAVEN_HOME=$HOME/.m2/repository/apache-maven-$MAVEN_VERSION
+
+if [ ! -d "$MAVEN_HOME" ]; then
+  echo "Downloading Maven $MAVEN_VERSION..."
+  curl -sL "https://archive.apache.org/dist/maven/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz" | tar xz -C $HOME/.m2/repository
+fi
+
+exec "$MAVEN_HOME/bin/mvn" "$@"

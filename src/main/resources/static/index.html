@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ConstiConnect — Smart Complaint Management</title>
+  <meta name="description" content="AI-powered complaint management system with real-time tracking and smart categorization." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ───────── AUTH SCREENS ───────── -->
+<div id="auth-screen" class="auth-screen">
+  <div class="auth-bg-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+
+  <div class="auth-card" id="login-card">
+    <div class="auth-brand">
+      <div class="brand-icon">⚖️</div>
+      <h1>ConstiConnect</h1>
+      <p>Smart Complaint Management</p>
+    </div>
+    <form id="login-form" autocomplete="off">
+      <div class="input-group">
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" placeholder="you@example.com" required />
+      </div>
+      <div class="input-group">
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" placeholder="••••••••" required />
+      </div>
+      <button type="submit" class="btn-primary" id="login-btn">Sign In</button>
+      <p class="auth-alt">Don't have an account? <a href="#" id="show-register">Create one</a></p>
+    </form>
+  </div>
+
+  <div class="auth-card hidden" id="register-card">
+    <div class="auth-brand">
+      <div class="brand-icon">⚖️</div>
+      <h1>Join ConstiConnect</h1>
+      <p>Create your account</p>
+    </div>
+    <form id="register-form" autocomplete="off">
+      <div class="input-group">
+        <label for="reg-name">Full Name</label>
+        <input type="text" id="reg-name" placeholder="John Doe" required />
+      </div>
+      <div class="input-group">
+        <label for="reg-email">Email</label>
+        <input type="email" id="reg-email" placeholder="you@example.com" required />
+      </div>
+      <div class="input-group">
+        <label for="reg-password">Password</label>
+        <input type="password" id="reg-password" placeholder="••••••••" required />
+      </div>
+      <button type="submit" class="btn-primary" id="register-btn">Create Account</button>
+      <p class="auth-alt">Already have an account? <a href="#" id="show-login">Sign in</a></p>
+    </form>
+  </div>
+</div>
+
+<!-- ───────── MAIN APP ───────── -->
+<div id="app" class="app hidden">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-icon-sm">⚖️</span>
+      <span class="brand-text">ConstiConnect</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-view="dashboard" id="nav-dashboard">
+        <span class="nav-icon">📊</span><span class="nav-label">Dashboard</span>
+      </a>
+      <a href="#" class="nav-item" data-view="complaints" id="nav-complaints">
+        <span class="nav-icon">📋</span><span class="nav-label">All Complaints</span>
+      </a>
+      <a href="#" class="nav-item" data-view="my-complaints" id="nav-my-complaints">
+        <span class="nav-icon">📝</span><span class="nav-label">My Complaints</span>
+      </a>
+      <a href="#" class="nav-item" data-view="new-complaint" id="nav-new-complaint">
+        <span class="nav-icon">➕</span><span class="nav-label">New Complaint</span>
+      </a>
+      <a href="#" class="nav-item" data-view="ai-chat" id="nav-ai-chat">
+        <span class="nav-icon">🤖</span><span class="nav-label">AI Assistant</span>
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-info" id="user-info">
+        <div class="user-avatar" id="user-avatar">U</div>
+        <div class="user-details">
+          <span class="user-name" id="user-name-display">User</span>
+          <span class="user-email" id="user-email-display">user@email.com</span>
+        </div>
+      </div>
+      <button class="btn-logout" id="logout-btn">Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <header class="topbar">
+      <button class="menu-toggle" id="menu-toggle">☰</button>
+      <h2 class="page-title" id="page-title">Dashboard</h2>
+      <div class="topbar-actions">
+        <div class="search-box">
+          <input type="text" id="global-search" placeholder="Search complaints…" />
+        </div>
+      </div>
+    </header>
+
+    <div class="content-area" id="content-area">
+
+      <!-- ── DASHBOARD VIEW ── -->
+      <section id="view-dashboard" class="view active">
+        <div class="stats-grid" id="stats-grid">
+          <div class="stat-card stat-total">
+            <div class="stat-icon">📦</div>
+            <div class="stat-body"><span class="stat-number" id="stat-total">0</span><span class="stat-label">Total</span></div>
+          </div>
+          <div class="stat-card stat-open">
+            <div class="stat-icon">🔓</div>
+            <div class="stat-body"><span class="stat-number" id="stat-open">0</span><span class="stat-label">Open</span></div>
+          </div>
+          <div class="stat-card stat-progress">
+            <div class="stat-icon">🔄</div>
+            <div class="stat-body"><span class="stat-number" id="stat-progress">0</span><span class="stat-label">In Progress</span></div>
+          </div>
+          <div class="stat-card stat-closed">
+            <div class="stat-icon">✅</div>
+            <div class="stat-body"><span class="stat-number" id="stat-closed">0</span><span class="stat-label">Closed</span></div>
+          </div>
+        </div>
+        <div class="section-header">
+          <h3>Recent Complaints</h3>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table" id="dashboard-table">
+            <thead>
+              <tr><th>ID</th><th>Title</th><th>Category</th><th>Priority</th><th>Status</th><th>Date</th></tr>
+            </thead>
+            <tbody id="dashboard-tbody"></tbody>
+          </table>
+          <p class="empty-state hidden" id="dashboard-empty">No complaints yet. Create one!</p>
+        </div>
+      </section>
+
+      <!-- ── ALL COMPLAINTS VIEW ── -->
+      <section id="view-complaints" class="view hidden">
+        <div class="filter-bar">
+          <button class="filter-chip active" data-filter="">All</button>
+          <button class="filter-chip" data-filter="OPEN">Open</button>
+          <button class="filter-chip" data-filter="IN_PROGRESS">In Progress</button>
+          <button class="filter-chip" data-filter="CLOSED">Closed</button>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table" id="complaints-table">
+            <thead>
+              <tr><th>ID</th><th>Title</th><th>Category</th><th>Department</th><th>Priority</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="complaints-tbody"></tbody>
+          </table>
+          <p class="empty-state hidden" id="complaints-empty">No complaints found.</p>
+        </div>
+      </section>
+
+      <!-- ── MY COMPLAINTS VIEW ── -->
+      <section id="view-my-complaints" class="view hidden">
+        <div class="section-header">
+          <h3>My Complaints</h3>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table" id="my-complaints-table">
+            <thead>
+              <tr><th>ID</th><th>Title</th><th>Category</th><th>Priority</th><th>Status</th><th>Date</th></tr>
+            </thead>
+            <tbody id="my-complaints-tbody"></tbody>
+          </table>
+          <p class="empty-state hidden" id="my-complaints-empty">You haven't filed any complaints yet.</p>
+        </div>
+      </section>
+
+      <!-- ── NEW COMPLAINT VIEW ── -->
+      <section id="view-new-complaint" class="view hidden">
+        <div class="form-card">
+          <h3>File a New Complaint</h3>
+          <form id="complaint-form" autocomplete="off">
+            <div class="input-group">
+              <label for="c-title">Title</label>
+              <input type="text" id="c-title" placeholder="Brief summary of the issue" required />
+            </div>
+            <div class="input-group">
+              <label for="c-description">Description</label>
+              <textarea id="c-description" rows="5" placeholder="Describe the issue in detail…" required></textarea>
+            </div>
+            <div id="ai-analysis-box" class="ai-analysis-box hidden">
+              <h4>🤖 AI Analysis</h4>
+              <div class="ai-chips">
+                <span class="ai-chip"><strong>Category:</strong> <span id="ai-category">—</span></span>
+                <span class="ai-chip"><strong>Department:</strong> <span id="ai-department">—</span></span>
+                <span class="ai-chip"><strong>Priority:</strong> <span id="ai-priority">—</span></span>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn-secondary" id="analyze-btn">🔍 Analyze with AI</button>
+              <button type="submit" class="btn-primary" id="submit-complaint-btn">Submit Complaint</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ── AI CHAT VIEW ── -->
+      <section id="view-ai-chat" class="view hidden">
+        <div class="chat-container">
+          <div class="chat-messages" id="chat-messages">
+            <div class="chat-bubble bot">
+              <p>👋 Hi! I'm your AI assistant. Ask me anything about complaint resolution, policies, or get help drafting a complaint.</p>
+            </div>
+          </div>
+          <form class="chat-input-bar" id="chat-form">
+            <input type="text" id="chat-input" placeholder="Type your message…" required />
+            <button type="submit" class="btn-send" id="chat-send-btn">➤</button>
+          </form>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<!-- ── COMPLAINT DETAIL MODAL ── -->
+<div class="modal-overlay hidden" id="detail-modal">
+  <div class="modal-card">
+    <button class="modal-close" id="modal-close">✕</button>
+    <h3 id="modal-title">Complaint</h3>
+    <div class="modal-meta" id="modal-meta"></div>
+    <p class="modal-desc" id="modal-desc"></p>
+    <div class="modal-status-bar" id="modal-status-bar"></div>
+  </div>
+</div>
+
+<!-- ── TOAST ── -->
+<div class="toast-container" id="toast-container"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
