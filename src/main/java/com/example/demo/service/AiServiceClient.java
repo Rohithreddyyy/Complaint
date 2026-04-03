@@ -10,6 +10,7 @@ public class AiServiceClient {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
+    @SuppressWarnings("unchecked")
     public Map<String, String> analyzeText(String text) {
 
         String url = "http://localhost:8000/predict";
