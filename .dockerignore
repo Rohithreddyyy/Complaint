@@ -1,0 +1,9 @@
+node_modules
+target/
+*.log
+.git
+.env
+.DS_Store
+frontend/
+bin/
+obj/
